@@ -1,0 +1,31 @@
+NAME="desktop-backgrounds-basic"
+VERSION=15
+RELEASE=1
+CATEGORY="X11"
+SUMMARY="Basic desktop wallpapers"
+DESCRIPTION="The desktop-backgrounds-basic package contains artwork intended to
+be used as desktop background image."
+HOMEPAGE=
+md5sum=7fd3e0afed8a613c09f930d7b7dcca54
+SRC_URI="http://pkgs.fedoraproject.org/repo/pkgs/desktop-backgrounds/redhat-backgrounds-${VERSION}.tar.bz2/${md5sum}/redhat-backgrounds-${VERSION}.tar.bz2"
+SRC_DIR="redhat-backgrounds-${VERSION}"
+
+ARCH=noarch
+
+src_compile() { :; }
+
+src_install() {
+	cd ${S}
+	insinto /usr/share/backgrounds/images
+	doins images/{earth,flowers,ladybugs,stone,tiny}*.jpg
+
+	insinto /usr/share/backgrounds/tiles
+	doins tiles/*.{jpg,png}
+
+	insinto /usr/share/gnome-background-properties
+	doins desktop-backgrounds-basic.xml
+
+	dodir /usr/share/mate-background-properties
+	sed -e 's|gnome-wp|mate-wp|' desktop-backgrounds-basic.xml \
+	    > ${D}/usr/share/mate-background-properties/desktop-backgrounds-basic.xml
+}
